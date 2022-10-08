@@ -3,36 +3,36 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
-[RequireComponent(typeof(HealthBar), typeof(Slider))]
+[RequireComponent(typeof(PlayerHealth), typeof(Slider))]
 public class HealthBarView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _textHealth;
     [SerializeField] private float _durationChange;
 
-    private HealthBar _healthBar;
+    private PlayerHealth _playerHealth;
     private Slider _slider;
 
     private void Awake()
     {
-        _healthBar = GetComponent<HealthBar>();
+        _playerHealth = GetComponent<PlayerHealth>();
         _slider = GetComponent<Slider>();
-        _textHealth.text = $"{_healthBar.Health} / {_healthBar.MaxHealth}";
+        _textHealth.text = $"{_playerHealth.Health} / {_playerHealth.MaxHealth}";
     }
 
     private void OnEnable()
     {
-        _healthBar.Changed += DisplayHealthChanges;
+        _playerHealth.Changed += DisplayHealthChanges;
     }
 
     private void OnDisable()
     {
-        _healthBar.Changed -= DisplayHealthChanges;
+        _playerHealth.Changed -= DisplayHealthChanges;
     }
 
     private void DisplayHealthChanges()
     {
-        float HealthInUnitRange = _healthBar.Health / _healthBar.MaxHealth;
+        float HealthInUnitRange = _playerHealth.Health / _playerHealth.MaxHealth;
         _slider.DOValue(HealthInUnitRange, _durationChange).SetEase(Ease.OutExpo);
-        _textHealth.text = $"{_healthBar.Health} / {_healthBar.MaxHealth}";
+        _textHealth.text = $"{_playerHealth.Health} / {_playerHealth.MaxHealth}";
     }
 }
